@@ -46,6 +46,7 @@
 		TRAIT_ZOMBIE_IMMUNE,
 		TRAIT_EMOTEMUTE,
 		TRAIT_ROTMAN,
+		TRAIT_NORUN
 	)
 	/// Traits applied to the owner when we are cured and turn into just "rotmen"
 	var/static/list/traits_rotman = list(
@@ -209,10 +210,8 @@
 	for(var/slot in removed_slots)
 		zombie.dropItemToGround(zombie.get_item_by_slot(slot), TRUE)
 
-	/* Exercises in futility
 	// Ghosts you because this shit was just not working whatsoever, let the AI handle the rest
 	zombie.ghostize(FALSE)
-	*/
 
 /datum/antagonist/zombie/greet()
 	to_chat(owner.current, span_userdanger("Death is not the end..."))
@@ -331,7 +330,7 @@
 	if(!zombie_antag)
 		return
 	if(stat >= DEAD) //do shit the natural way i guess
-		return 
+		return
 	to_chat(src, span_danger("I feel horrible... REALLY horrible..."))
 	mob_timers["puke"] = world.time
 	vomit(1, blood = TRUE, stun = FALSE)
