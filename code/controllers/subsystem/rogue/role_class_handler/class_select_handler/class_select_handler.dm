@@ -5,6 +5,11 @@
 	var/client/linked_client //the ss will link it!
 	//Well, we basically need to fill out our options
 
+/*
+	This is basically a int, we add one extra slot per every x amount of PQ
+*/
+	var/PQ_boost_divider = 0
+
 /* 
 	This list is organized like so
 	class_cat_alloc_attempts = list(CTAG_PILGRIM = 5, CTAG_ADVENTURER = 3, etc)
@@ -105,6 +110,12 @@
 
 			// Time to do some picking, make sure we got things in the list we dealin with
 			if(local_insert_sortlist.len)
+
+				// Get the maximum amount right here before we do the limit check
+				if(PQ_boost_divider)
+					var/slot_addition = ceil(get_playerquality(linked_client.ckey)/PQ_boost_divider)
+					class_cat_alloc_attempts[SORT_CAT_KEY] += slot_addition
+
 				// Make sure we aren't going to attempt to pick more than what we even have avail
 				if(class_cat_alloc_attempts[SORT_CAT_KEY] > local_insert_sortlist.len)
 					class_cat_alloc_attempts[SORT_CAT_KEY] = local_insert_sortlist.len
